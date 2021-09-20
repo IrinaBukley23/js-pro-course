@@ -5,7 +5,8 @@
       "removeComments": true,
       "preserveConstEnums": true,
       "outFile": "index.js",
-      "sourceMap": true
+      "sourceMap": true,
+      "strict": true
     },
     "include": ["index.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]

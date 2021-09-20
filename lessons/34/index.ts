@@ -17,45 +17,40 @@ let hourSumEl = document.querySelector('#hour');
 let minuteSumyEl = document.querySelector('#minute');
 let nowSumEl = document.querySelector('#now');
 
-
-const currency = {
-    'rub': 1,
-    'euro': 3.1,
-    'dollar': 2.5,
-    'hryvnia': 0.093,
-  };
+// const currency = {
+//     'rub': 1,
+//     'euro': 3.1,
+//     'dollar': 2.5,
+//     'hryvnia': 0.093,
+//   };
 
   // currency change in text
   currencyEl.addEventListener( 'change', () => {
     chosenEl.forEach(elem => elem.textContent = currencyEl.options[currencyEl.selectedIndex].text)
   } );
 
-  //count result block
-const countSum = (period: string): number => {
+  enum Period {
+        "inYear" = "year",
+        "inVocation" = "vocation",
+        "inWeek" = "week",
+        "inDay" = "day",
+        "inHour" = "hour",
+        "inMinute" = "minute",
+        "inNow" = "now"
+  }
+
+  //count result block период согнать в enum и переписать код + строгий режим  + заменить на Number/ parseInt + попробовать конвертацию валюты???????
+const countSum = (period: Period): number => {
     let dayEarned: number = +salaryEl.value / (+dayWorkedEl.value * 4);
     let hourEarned: number = dayEarned / +timeWorkedEl.value;
 
-    if(period === 'year') {
-        return +salaryEl.value * 12;
-    }
-    if(period === 'vocation'){
-        return  dayEarned * +vocationDaysEl.value;
-    }
-    if(period === 'week') {
-        return Math.round( +salaryEl.value / 4 );
-    }
-    if(period === 'day') {
-        return Math.round( dayEarned );
-    }
-    if(period === 'hour') {
-        return +( hourEarned ).toFixed(2);
-    }
-    if(period === 'minute') {
-        return +( hourEarned / 60 ).toFixed(2);
-    }
-    if(period === 'now') {
-        return +( hourEarned / (60 * 60) ).toFixed(3);
-    }
+    if(period === Period.inYear) { +salaryEl.value * 12; }
+    if(period === Period.inVocation){ dayEarned * +vocationDaysEl.value; }
+    if(period === Period.inWeek) { return Math.round( +salaryEl.value / 4 ); }
+    if(period === Period.inDay) { return Math.round( dayEarned ); }
+    if(period === Period.inHour) { return +( hourEarned ).toFixed(2); }
+    if(period === Period.inMinute) { return +( hourEarned / 60 ).toFixed(2); }
+    if(period === Period.inNow) { return +( hourEarned / (60 * 60) ).toFixed(3); }
 }
 
  // recording results after DOM loaded
