@@ -29,45 +29,46 @@ let nowSumEl = document.querySelector('#now');
     chosenEl.forEach(elem => elem.textContent = currencyEl.options[currencyEl.selectedIndex].text)
   } );
 
-  enum Period {
-        "inYear" = "year",
-        "inVocation" = "vocation",
-        "inWeek" = "week",
-        "inDay" = "day",
-        "inHour" = "hour",
-        "inMinute" = "minute",
-        "inNow" = "now"
+  const enum Period {
+        year,
+        vocation,
+        week,
+        day,
+        hour,
+        minute,
+        now
   }
 
   //count result block период согнать в enum и переписать код + строгий режим  + заменить на Number/ parseInt + попробовать конвертацию валюты???????
-const countSum = (period: Period): number => {
-    let dayEarned: number = +salaryEl.value / (+dayWorkedEl.value * 4);
-    let hourEarned: number = dayEarned / +timeWorkedEl.value;
+const countSum = (period: Period) => {
+    let dayEarned: number = Number(salaryEl.value) / (Number(dayWorkedEl.value) * 4);
+    let hourEarned: number = dayEarned / Number(timeWorkedEl.value);
 
-    if(period === Period.inYear) { +salaryEl.value * 12; }
-    if(period === Period.inVocation){ dayEarned * +vocationDaysEl.value; }
-    if(period === Period.inWeek) { return Math.round( +salaryEl.value / 4 ); }
-    if(period === Period.inDay) { return Math.round( dayEarned ); }
-    if(period === Period.inHour) { return +( hourEarned ).toFixed(2); }
-    if(period === Period.inMinute) { return +( hourEarned / 60 ).toFixed(2); }
-    if(period === Period.inNow) { return +( hourEarned / (60 * 60) ).toFixed(3); }
+    if(period === Period.year) { Number(salaryEl.value) * 12; }
+    if(period === Period.vocation){ dayEarned * Number(vocationDaysEl.value); }
+    if(period === Period.week) { return Math.round( Number(salaryEl.value) / 4 ); }
+    if(period === Period.day) { return ( dayEarned ).toFixed(0); }
+    if(period === Period.hour) { return Number(( hourEarned ).toFixed(2)); }
+    if(period === Period.minute) { return Number(( hourEarned / 60 ).toFixed(2)); }
+    if(period === Period.now) { return Number(( hourEarned / (60 * 60) ).toFixed(3));
+    }
 }
 
  // recording results after DOM loaded
 document.addEventListener('DOMContentLoaded', () => {
-    resultSumEl.forEach(elem => elem.textContent = countSum(elem.id).toString());
+    resultSumEl.forEach(elem => elem.textContent = countSum(elem).toString());
 });
 
 // update rusults when started data was changed
 document
     .querySelectorAll('.start')
     .forEach(elem => elem.addEventListener('input', () => {
-        resultSumEl.forEach(elem => elem.textContent = countSum(elem.id).toString());
+        resultSumEl.forEach(elem => elem.textContent = countSum(elem).toString());
     } ));
     
-// update poin "now" every second
-    let nowUp = +countSum('now');
+// update point "now" every second
+    let nowUp = parseInt(countSum(Period.now));
     setInterval( () => {
-        nowUp += +countSum('now');
+        nowUp += parseInt(countSum(Period.now));
         nowSumEl.textContent = nowUp.toFixed(3);
     }, 1000 );
