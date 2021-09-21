@@ -16,6 +16,7 @@ let hourSumEl = document.querySelector('#hour');
 let minuteSumyEl = document.querySelector('#minute');
 let nowSumEl: any = document.querySelector('#now');
 
+// попробовать конвертацию валюты???????
 // const currency = {
 //     'rub': 1,
 //     'euro': 3.1,
@@ -38,7 +39,7 @@ enum Period {
     now
 }
 
- //count result block + попробовать конвертацию валюты???????
+ //count result block 
 const countSum = (period: Period): number | void => {
     let dayEarned: number = Number(salaryEl.value) / (Number(dayWorkedEl.value) * 4);
     let hourEarned: number = dayEarned / Number(timeWorkedEl.value);
@@ -66,6 +67,7 @@ const countSum = (period: Period): number | void => {
     }
 }
 
+// print result block
 const printResult = (): void => {
     let yearEl: any = document.querySelector('#year');
     yearEl.textContent = String(countSum(Period.year)).toString();
@@ -82,12 +84,13 @@ const printResult = (): void => {
     let nowEl: any = document.querySelector('#now');
     nowEl.textContent = String(countSum(Period.now)).toString();
 }
+
 document.addEventListener('DOMContentLoaded', printResult);
 document.addEventListener('input', printResult);
     
 // update point "now" every second
-    let nowUp = Number(countSum(Period.now));
-    setInterval( () => {
-        nowUp += Number(countSum(Period.now));
-        nowSumEl.textContent = nowUp.toFixed(3);
-    }, 1000 );
+let nowUp = Number(countSum(Period.now));
+setInterval( () => {
+    nowUp += Number(countSum(Period.now));
+    nowSumEl.textContent = nowUp.toFixed(3);
+}, 1000 );
